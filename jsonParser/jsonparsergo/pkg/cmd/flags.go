@@ -1,7 +1,9 @@
-package jsonparsergo
+package cmd
 
-import "flag"
-
+import (
+	"flag"
+	"github.com/singlaanish56/jsonparsergo/pkg/analysis"
+)
 var fileName string
 var jsonString string
 
@@ -27,10 +29,10 @@ func ParseTheFlags() {
 	}
 
 	if len(fileName) > 0 {
-		ParseTheFile(fileName)
+		analysis.ParseTheFile(fileName)
 	}
 
 	if len(jsonString) > 0{
-		ParseTheString(jsonString)
+		analysis.ParseTheString(jsonString)
 	}
 }

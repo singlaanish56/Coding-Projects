@@ -1,4 +1,4 @@
-package jsonparsergo
+package errors
 
 import(
 	"log"

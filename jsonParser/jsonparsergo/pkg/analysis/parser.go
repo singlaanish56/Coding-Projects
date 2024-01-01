@@ -1,26 +1,17 @@
-package jsonparsergo
+package analysis
 
 import (
 	"bufio"
 	"os"
 	"fmt"
+	"github.com/singlaanish56/jsonparsergo/pkg/errors"
 )
 var store []byte
-
-func parseObject
-func checkIfJsonValid() int{
-	fmt.Println(string(store))
-	for i, _ := range store{
-		if store[i]=='{'{
-			i=parseObject(i,)
-		}
-	}
-}
 
 func ParseTheFile(fileName string) {
 
 	f, err := os.Open(fileName)
-	HandleError(err)
+	errors.HandleError(err)
 
 	defer f.Close()
 
@@ -28,7 +19,7 @@ func ParseTheFile(fileName string) {
 	
 	for{
 		line, _, err := reader.ReadLine();
-		if HandleFileError(err){
+		if errors.HandleFileError(err){
 			break
 		}
 
