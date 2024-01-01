@@ -1,4 +1,4 @@
-package wcgo
+package pkg
 
 import(
 	"log"
