@@ -8,6 +8,14 @@ import (
 )
 var store []byte
 
+func printTheTokens(input string){
+	lexer := CreateLexer(input)
+	for lexer.currentChar != 0{
+		token:= lexer.GetToken()
+		fmt.Printf("%s\n",token.Char)
+	}
+
+}
 func ParseTheFile(fileName string) {
 
 	f, err := os.Open(fileName)
@@ -25,13 +33,12 @@ func ParseTheFile(fileName string) {
 
 		store = append(store,line...)
 	}
-
-	fmt.Printf("%d\t", checkIfJsonValid())
+	
+	printTheTokens(string(store))
 }
 
 func ParseTheString(stringName string) {
 
-	store = []byte(stringName)
+	printTheTokens(stringName)
 
-	fmt.Printf("%d\t", checkIfJsonValid())
 }

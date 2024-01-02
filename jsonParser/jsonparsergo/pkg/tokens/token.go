@@ -14,6 +14,7 @@ const (
 
 	Colon = ":"
 	Comma = ","
+	Invalid ="INV"
 )
 
 type Token struct {
