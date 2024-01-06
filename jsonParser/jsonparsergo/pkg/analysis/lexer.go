@@ -69,6 +69,7 @@ func (lexer *Lexer) GetToken() tokens.Token {
 		return tokens.Token{s,tokens.String,start,startP}
 	}
 
+	//is true, false, null
 	if(lexer.currentChar == 't' || lexer.currentChar == 'f' || lexer.currentChar == 'n'){
 		start := lexer.startPosition
 

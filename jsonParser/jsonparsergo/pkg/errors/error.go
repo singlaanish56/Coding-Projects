@@ -11,6 +11,7 @@ func HandleError(err error){
 	}
 } 
 
+
 func HandleFileError(err error) bool{
 	if err!=nil{
 		if err == io.EOF {

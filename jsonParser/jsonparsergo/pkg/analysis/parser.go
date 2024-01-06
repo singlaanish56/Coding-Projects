@@ -2,20 +2,35 @@ package analysis
 
 import (
 	"bufio"
-	"os"
 	"fmt"
 	"github.com/singlaanish56/jsonparsergo/pkg/errors"
+	"github.com/singlaanish56/jsonparsergo/pkg/stack"
+	"os"
 )
+
 var store []byte
 
-func printTheTokens(input string){
+func parseTheTokens(input string) int {
 	lexer := CreateLexer(input)
-	for lexer.currentChar != 0{
-		token:= lexer.GetToken()
-		fmt.Printf("%s\n",token.Char)
+	bracketStack := stack.New()
+
+	for lexer.currentChar != 0 {
+		token := lexer.GetToken()
+		fmt.Printf("%s\n", token.Char)
+
+		if token.Char == "{" || token.Char == "[" {
+			bracketStack.Push(token.Char)
+		} else if (token.Char == "}" && (bracketStack.IsEmpty() || *bracketStack.Pop() != "{")) || (token.Char == "]" && (bracketStack.IsEmpty() || *bracketStack.Pop() != "[")) {
+			return 0
+		}
 	}
 
+	if !bracketStack.IsEmpty() {
+		return 0
+	}
+	return 1
 }
+
 func ParseTheFile(fileName string) {
 
 	f, err := os.Open(fileName)
@@ -24,21 +39,21 @@ func ParseTheFile(fileName string) {
 	defer f.Close()
 
 	reader := bufio.NewReader(f)
-	
-	for{
-		line, _, err := reader.ReadLine();
-		if errors.HandleFileError(err){
+
+	for {
+		line, _, err := reader.ReadLine()
+		if errors.HandleFileError(err) {
 			break
 		}
 
-		store = append(store,line...)
+		store = append(store, line...)
 	}
-	
-	printTheTokens(string(store))
+
+	fmt.Println(parseTheTokens(string(store)))
 }
 
 func ParseTheString(stringName string) {
 
-	printTheTokens(stringName)
+	fmt.Println(parseTheTokens(stringName))
 
 }
