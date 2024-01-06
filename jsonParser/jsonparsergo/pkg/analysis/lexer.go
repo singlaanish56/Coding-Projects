@@ -25,6 +25,7 @@ func (lexer *Lexer) nextChar() {
 		lexer.currentChar = lexer.input[lexer.nextCharPosition]
 	}
 
+	//fmt.Printf("%s\n",string(lexer.currentChar))
 	lexer.startPosition = lexer.nextCharPosition
 	lexer.nextCharPosition++
 }
@@ -35,7 +36,6 @@ func (lexer *Lexer) GetToken() tokens.Token {
 
 	//if whitespace or other wise ignore
 	if(c == ' ' || c=='\t' || c=='\n' || c=='\r'){
-
 		lexer.nextChar()
 	}
 
@@ -50,6 +50,7 @@ func (lexer *Lexer) GetToken() tokens.Token {
 
 		return tokens.Token{string(lexer.input[start:lexer.startPosition]),tokens.Number,start,lexer.startPosition}
 	}
+
 	//isString
 	if(lexer.currentChar=='"'){
 		start := lexer.startPosition+1
@@ -62,12 +63,13 @@ func (lexer *Lexer) GetToken() tokens.Token {
 			}
 		}
 
-		return tokens.Token{string(lexer.input[start:lexer.startPosition]),tokens.String,start,lexer.startPosition}
+		s := string(lexer.input[start:lexer.startPosition])
+		startP := lexer.startPosition
+		lexer.nextChar()
+		return tokens.Token{s,tokens.String,start,startP}
 	}
-	
-	
-	if(lexer.currentChar == 't' || lexer.currentChar == 'f' || lexer.currentChar == 'n'){
 
+	if(lexer.currentChar == 't' || lexer.currentChar == 'f' || lexer.currentChar == 'n'){
 		start := lexer.startPosition
 
 		for lexer.currentChar>='a' && lexer.currentChar<='z'{
@@ -110,7 +112,7 @@ func (lexer *Lexer) GetToken() tokens.Token {
 		lexer.currentChar =0
 		t=tokens.Token{string(lexer.currentChar),tokens.Invalid, lexer.startPosition, lexer.nextCharPosition}
 	}
-
+	
 	lexer.nextChar()
 	return t
 }
